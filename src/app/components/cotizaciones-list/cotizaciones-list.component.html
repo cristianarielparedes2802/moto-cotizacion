@@ -1,1 +1,49 @@
-<p>cotizaciones-list works!</p>
+<app-section-header
+  titulo="Cotizaciones de Préstamos"
+  subtitulo="Historial de cotizaciones registradas"
+  icono="🏍️">
+</app-section-header>
+
+<div class="actions-bar">
+  <button class="btn-primary" (click)="nuevaCotizacion()">
+    + Nueva Cotización
+  </button>
+</div>
+
+<div class="empty-state" *ngIf="cotizaciones.length === 0">
+  <p>📋 No hay cotizaciones registradas todavía.</p>
+  <button class="btn-outline" (click)="nuevaCotizacion()">
+    Crear la primera cotización
+  </button>
+</div>
+
+<div class="table-wrapper" *ngIf="cotizaciones.length > 0">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Cliente</th>
+        <th>Monto</th>
+        <th>Tasa</th>
+        <th>Plazo</th>
+        <th>Cuota Mensual</th>
+        <th>Fecha</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let c of cotizaciones">
+        <td><span class="id-chip">{{ c.id }}</span></td>
+        <td>{{ c.nombreCliente }}</td>
+        <td>{{ formatMoneda(c.montoSolicitado) }}</td>
+        <td>{{ c.tasaInteres }}%</td>
+        <td>{{ c.plazoMeses }} meses</td>
+        <td class="cuota-col">{{ formatMoneda(c.cuotaMensual) }}</td>
+        <td>{{ formatFecha(c.fechaCreacion) }}</td>
+        <td>
+          <button class="btn-link" (click)="verDetalle(c.id)">Ver →</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

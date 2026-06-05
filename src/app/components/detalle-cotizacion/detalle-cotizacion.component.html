@@ -1,1 +1,60 @@
-<p>detalle-cotizacion works!</p>
+<div *ngIf="noEncontrada" class="not-found">
+  <p>❌ Cotización no encontrada.</p>
+  <button class="btn-primary" (click)="volver()">Volver al listado</button>
+</div>
+
+<div *ngIf="cotizacion">
+  <app-section-header
+    titulo="Detalle de Cotización"
+    [subtitulo]="cotizacion.id"
+    icono="📋">
+  </app-section-header>
+
+  <div class="detalle-grid">
+
+    <div class="card">
+      <h3>Información del Préstamo</h3>
+      <div class="info-row">
+        <span>Cliente</span>
+        <strong>{{ cotizacion.nombreCliente }}</strong>
+      </div>
+      <div class="info-row">
+        <span>Fecha de cotización</span>
+        <strong>{{ formatFecha(cotizacion.fechaCreacion) }}</strong>
+      </div>
+      <div class="info-row">
+        <span>Monto solicitado</span>
+        <strong>{{ formatMoneda(cotizacion.montoSolicitado) }}</strong>
+      </div>
+      <div class="info-row">
+        <span>Tasa de interés anual</span>
+        <strong>{{ cotizacion.tasaInteres }}%</strong>
+      </div>
+      <div class="info-row">
+        <span>Plazo</span>
+        <strong>{{ cotizacion.plazoMeses }} meses</strong>
+      </div>
+    </div>
+
+    <div class="card resumen-card">
+      <h3>Resumen Financiero</h3>
+      <div class="info-row">
+        <span>Cuota mensual</span>
+        <strong class="highlight">{{ formatMoneda(cotizacion.cuotaMensual) }}</strong>
+      </div>
+      <div class="info-row">
+        <span>Total a pagar</span>
+        <strong>{{ formatMoneda(totalPagar) }}</strong>
+      </div>
+      <div class="info-row">
+        <span>Total en intereses</span>
+        <strong class="intereses">{{ formatMoneda(totalIntereses) }}</strong>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="detail-actions">
+    <button class="btn-secondary" (click)="volver()">← Volver al listado</button>
+  </div>
+</div>

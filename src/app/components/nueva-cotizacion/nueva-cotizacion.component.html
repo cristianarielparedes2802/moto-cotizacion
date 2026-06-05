@@ -1,1 +1,121 @@
-<p>nueva-cotizacion works!</p>
+<app-section-header
+  titulo="Nueva Cotización"
+  subtitulo="Completa los datos del préstamo"
+  icono="📝">
+</app-section-header>
+
+<div class="form-layout">
+
+  <form [formGroup]="form" (ngSubmit)="guardar()" class="cotizacion-form" novalidate>
+
+    <div class="form-group" [class.has-error]="isInvalid('nombreCliente')">
+      <label for="nombreCliente">Nombre del Cliente <span class="req">*</span></label>
+      <input
+        id="nombreCliente"
+        type="text"
+        formControlName="nombreCliente"
+        placeholder="Ej: María García"
+        autocomplete="off"
+      />
+      <span class="error-msg" *ngIf="isInvalid('nombreCliente')">
+        {{ getError('nombreCliente') }}
+      </span>
+    </div>
+
+    <div class="form-group" [class.has-error]="isInvalid('montoSolicitado')">
+      <label for="montoSolicitado">Monto Solicitado <span class="req">*</span></label>
+      <div class="input-prefix">
+        <span class="prefix">Q</span>
+        <input
+          id="montoSolicitado"
+          type="number"
+          formControlName="montoSolicitado"
+          placeholder="0.00"
+          min="1"
+          max="60000"
+        />
+      </div>
+      <span class="hint">Máximo: Q 60,000</span>
+      <span class="error-msg" *ngIf="isInvalid('montoSolicitado')">
+        {{ getError('montoSolicitado') }}
+      </span>
+    </div>
+
+    <div class="form-group" [class.has-error]="isInvalid('tasaInteres')">
+      <label for="tasaInteres">Tasa de Interés Anual <span class="req">*</span></label>
+      <div class="input-suffix">
+        <input
+          id="tasaInteres"
+          type="number"
+          formControlName="tasaInteres"
+          placeholder="0.00"
+          min="0"
+          max="20"
+          step="0.01"
+        />
+        <span class="suffix">%</span>
+      </div>
+      <span class="hint">Rango permitido: 0% — 20%</span>
+      <span class="error-msg" *ngIf="isInvalid('tasaInteres')">
+        {{ getError('tasaInteres') }}
+      </span>
+    </div>
+
+    <div class="form-group" [class.has-error]="isInvalid('plazoMeses')">
+      <label for="plazoMeses">Plazo <span class="req">*</span></label>
+      <div class="input-suffix">
+        <input
+          id="plazoMeses"
+          type="number"
+          formControlName="plazoMeses"
+          placeholder="Ej: 24"
+          min="1"
+          max="60"
+        />
+        <span class="suffix">meses</span>
+      </div>
+      <span class="hint">Máximo: 60 meses</span>
+      <span class="error-msg" *ngIf="isInvalid('plazoMeses')">
+        {{ getError('plazoMeses') }}
+      </span>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn-secondary" (click)="cancelar()">
+        Cancelar
+      </button>
+      <button type="submit" class="btn-primary" [disabled]="enviando">
+        {{ enviando ? 'Guardando...' : 'Guardar Cotización' }}
+      </button>
+    </div>
+
+  </form>
+
+  <!-- Panel de vista previa en tiempo real -->
+  <aside class="preview-panel">
+    <h3>Resumen de Cotización</h3>
+    <div class="preview-card">
+      <div class="preview-row">
+        <span>Monto Principal</span>
+        <strong>Q {{ form.get('montoSolicitado')?.value || 0 | number:'1.2-2' }}</strong>
+      </div>
+      <div class="preview-row">
+        <span>Tasa Anual</span>
+        <strong>{{ form.get('tasaInteres')?.value || 0 }}%</strong>
+      </div>
+      <div class="preview-row">
+        <span>Plazo</span>
+        <strong>{{ form.get('plazoMeses')?.value || 0 }} meses</strong>
+      </div>
+      <hr class="divider">
+      <div class="preview-cuota">
+        <span>Cuota Mensual Estimada</span>
+        <strong class="cuota-valor">
+          Q {{ cuotaCalculada | number:'1.2-2' }}
+        </strong>
+      </div>
+    </div>
+    <p class="formula-note">* Sistema de amortización francés (cuota constante)</p>
+  </aside>
+
+</div>
