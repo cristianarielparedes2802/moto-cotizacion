@@ -1,0 +1,26 @@
+.navbar {
+  background: #1b4332;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+}
+
+.nav-brand { color: white; font-weight: bold; font-size: 1rem; }
+
+.nav-links { display: flex; gap: 1.5rem; }
+
+.nav-links a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.nav-links a.active { color: white; font-weight: bold; }
+
+.app-content {
+  padding: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
